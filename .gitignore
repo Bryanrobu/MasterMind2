@@ -30,6 +30,4 @@ bin/
 /.idea/*
 /.idea
 MasterMind2.iml
-src/dataconversion/Casting01.java
-src/dataconversion/Casting02.java
 /src/dataconversion
