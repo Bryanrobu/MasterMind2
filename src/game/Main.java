@@ -1,94 +1,81 @@
 package game;
-import java.util.*;
+
+import java.util.InputMismatchException;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        Random rand = new Random();
+    private static String string;
 
-        int attempts = 0;
+    public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        int[] code = { rand.nextInt(7), rand.nextInt(7), rand.nextInt(7), rand.nextInt(7) };
+        boolean gameGewonnen = false;
+
+        // Genereer code
+        String[] kleuren = {"rood", "oranje", "geel", "groen", "blauw", "paars"};
+        Random rnd = new Random();
+        String geheimecodes[] = new String[4];
+        geheimecodes[0] = kleuren[rnd.nextInt(kleuren.length)];
+        geheimecodes[1] = kleuren[rnd.nextInt(kleuren.length)];
+        geheimecodes[2] = kleuren[rnd.nextInt(kleuren.length)];
+        geheimecodes[3] = kleuren[rnd.nextInt(kleuren.length)];
 
         int score = 0;
 
-        boolean validGuess = true;
+        int ronde = 0;
 
-        // Main Game Loop
-        while (attempts < 10) {
-            System.out.println("Numbers: 0-7");
-            System.out.println("Attempt " + (attempts += 1) + ": Enter your guess: (example: 0 1 2 3) ");
+        System.out.println("\nWelkom bij CodeBreaker");
+        System.out.println("U kunt per beurt gokken uit de kleuren:");
+        System.out.println("(let op, geen hoofdletters)");
+        System.out.println("rood, oranje, geel, groen, blauw, paars");
 
-            // automatic debugging on mismatch input and invalid numbers
-            try {
-                int[] guess = { sc.nextInt(), sc.nextInt(), sc.nextInt(), sc.nextInt() };
-                validGuess = true;
-                for (int i = 0; i < 4; i++) {
-                    if (guess[i] > 7) {
-                        System.out
-                                .println("Number higher then 7 detected, try again with numbers in between 0 and 7.\n");
-                        attempts -= 1;
-                        validGuess = false;
-                        break;
-                    }
-                    if (guess[i] < 0) {
-                        System.out.println("Number lower then 0 detected, try again with numbers in between 0 and 7.\n");
-                        attempts -= 1;
-                        validGuess = false;
-                        break;
-                    }
-                }
-                // checking the code
-                if (validGuess) {
-                    for (int o = 0; o < 4; o++) {
+        // Loop 10 keer
+        for (int i = 0; i < 10; i++) {
 
-                        String feedback = "- ";
-                        if (guess[o] == code[o]) {
-                            feedback = "Black ";
-                            score++;
-                        } else {
-                            for (int j = 0; j < 4; j++) {
-                                if (j == o) {
-                                    continue;
-                                }
-                                if (guess[o] == code[j]) {
-                                    feedback = "white ";
-                                    break;
-                                }
-                            }
+            ronde++;
+
+            // Vraag voor user input
+            System.out.println("\n\nPoging: " + ronde);
+            System.out.print("Voer uw gok in: ");
+
+
+            String pogingen[] = {sc.next(), sc.next(), sc.next(), sc.next()};
+
+            // Controleer eerste poging
+            for (int o = 0; o < 4; o++) {
+
+                String resultaat = "- ";
+                if (pogingen[o].equals(geheimecodes[o])) {
+                    resultaat = "Z ";
+                    score++;
+                } else {
+                    for (int j = 0; j < 4; j++) {
+                        if (j == o) {
+                            continue;
                         }
-                        System.out.print(feedback);
-                    }
-
-                    // shortcut to exit loop if you have all numbers correct
-                    if (score == 4)
-
-                    {
-                        attempts = 10;
-                    } else {
-                        score = 0;
+                        if (pogingen[o].equals(geheimecodes[j])) {
+                            resultaat = "W ";
+                            break;
+                        }
                     }
                 }
+                System.out.print(resultaat);
+            }
 
-                // catching a mistake made by writing down a different variable instead of an
-                // integer
-            } catch (InputMismatchException e) {
-                System.out.println("\nWrong input. Try placing 4 numbers divided by spaces.");
-                sc.nextLine();
-                attempts -= 1;
-                continue;
+            if (score == 4) {
+                i = 11;
+                gameGewonnen = true;
+            } else {
+                score = 0;
             }
         }
-        // checking to see if you broke the loop by attempts, or by winning
-        if (score == 4) {
-            System.out.println("\nYou have won! good job :D");
+        System.out.println();
+        if (gameGewonnen) {
+            System.out.println("\nGefeliciteerd je hebt gewonnen!!!");
         } else {
-            System.out.println("\nYou have sadly lost, better luck next time! The code was: " + code[0] + "-" + code[1]
-                    + "-" + code[2] + "-" + code[3]);
-
+            System.out.println("\nHelaas, de code was:" + geheimecodes[0] + " " + geheimecodes[1] + " " + geheimecodes[2] + " " + geheimecodes[3]);
         }
-        sc.close();
     }
-
 }
