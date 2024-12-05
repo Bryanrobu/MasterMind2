@@ -16,11 +16,6 @@ public class Main {
         // Genereer code
         String[] kleuren = {"rood", "oranje", "geel", "groen", "blauw", "paars"};
         Random rnd = new Random();
-        String geheimecodes[] = new String[4];
-        geheimecodes[0] = kleuren[rnd.nextInt(kleuren.length)];
-        geheimecodes[1] = kleuren[rnd.nextInt(kleuren.length)];
-        geheimecodes[2] = kleuren[rnd.nextInt(kleuren.length)];
-        geheimecodes[3] = kleuren[rnd.nextInt(kleuren.length)];
 
         int score = 0;
 
@@ -28,8 +23,35 @@ public class Main {
 
         System.out.println("\nWelkom bij CodeBreaker");
         System.out.println("U kunt per beurt gokken uit de kleuren:");
-        System.out.println("(let op, geen hoofdletters)");
         System.out.println("rood, oranje, geel, groen, blauw, paars");
+        System.out.print("voer in hoelang je de code wilt hebben: ");
+
+        int input = 0;
+        boolean goedeinput = false;
+
+        while (!goedeinput) {
+            try {
+                input = sc.nextInt();
+                if (input > 0) {
+                    goedeinput = true;
+                } else {
+                    System.out.println("Oeps je kan geen negatief getal invullen,");
+                    System.out.print("probeer het opnieuw: ");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Oeps, u heeft iets verkeerds ingevult");
+                System.out.print("Vul aub een nummer in voor de lengte van de code: ");
+                sc.next();
+            }
+        }
+
+
+        System.out.print("Top! de code is nu " + input + " kleuren lang.");
+
+        String[] geheimecodes = new String[input];
+        for (int lengte = 0; lengte < geheimecodes.length; lengte++) {
+            geheimecodes[lengte] = kleuren[rnd.nextInt(kleuren.length)];
+        }
 
         // Loop 10 keer
         for (int i = 0; i < 10; i++) {
@@ -38,25 +60,56 @@ public class Main {
 
             // Vraag voor user input
             System.out.println("\n\nPoging: " + ronde);
-            System.out.print("Voer uw gok in: ");
+//            System.out.print("Voer uw gok in: ");
+//
+//
+            String[] pogingen = new String[geheimecodes.length];
+//            for (int lengte = 0; lengte < geheimecodes.length; lengte++) {
+//                pogingen[lengte] = sc.next();
+//            }
 
 
-            String pogingen[] = {sc.next(), sc.next(), sc.next(), sc.next()};
+            for (int y = 0; y < geheimecodes.length; y++) {
+                boolean matchFound = false;
+                y++; System.out.print("Kleur " + y + ": "); y--;
+                pogingen[y] = sc.next().toLowerCase();
+                for (String str : kleuren) {
+                    if (pogingen[y].equals(str)) {
+                        matchFound = true;
+                        break;
+                    }
+                }
+                while (!matchFound) {
+                    System.out.println("Vul een van de bovenstaande kleuren in aub");
+                    y++; System.out.print("Kleur " + y + ": "); y--;
+                    pogingen[y] = sc.next();
+                    for (String str : kleuren) {
+                        if (pogingen[y].equals(str)) {
+                            matchFound = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+
 
             // Controleer eerste poging
-            for (int o = 0; o < 4; o++) {
+            for (int o = 0; o < geheimecodes.length; o++) {
 
-                String resultaat = "- ";
+                String resultaat = "- "; //standaarwaarde word elke poging terug gezet naar fout
                 if (pogingen[o].equals(geheimecodes[o])) {
-                    resultaat = "Z ";
+                    resultaat = "Z "; //bij een 1 to 1 match goed
                     score++;
                 } else {
-                    for (int j = 0; j < 4; j++) {
-                        if (j == o) {
-                            continue;
+                    for (int j = 0; j < geheimecodes.length; j++) {
+
+                        if (pogingen[j].equals(geheimecodes[j])) {
+                            continue; //als hij 1 en 1 wilt verglijken skipt hij dit en gaat naar 1 en 2 verglijken
                         }
+
                         if (pogingen[o].equals(geheimecodes[j])) {
-                            resultaat = "W ";
+                            resultaat = "W "; //als een van de andere kleuren overeenkomt met je gok wordt de aanwezigheid aangegeven met een W
                             break;
                         }
                     }
@@ -64,7 +117,7 @@ public class Main {
                 System.out.print(resultaat);
             }
 
-            if (score == 4) {
+            if (score == geheimecodes.length) {
                 i = 11;
                 gameGewonnen = true;
             } else {
@@ -75,7 +128,11 @@ public class Main {
         if (gameGewonnen) {
             System.out.println("\nGefeliciteerd je hebt gewonnen!!!");
         } else {
-            System.out.println("\nHelaas, de code was:" + geheimecodes[0] + " " + geheimecodes[1] + " " + geheimecodes[2] + " " + geheimecodes[3]);
+            System.out.print("\nHelaas, de code was: ");
+            for (String geheimecode : geheimecodes) {
+                System.out.print(geheimecode + " ");
+
+            }
         }
     }
 }
