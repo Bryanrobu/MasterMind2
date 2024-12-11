@@ -12,6 +12,7 @@ public class Main
     {
 
         Scanner sc = new Scanner(System.in);
+        Mastermind mm = new Mastermind();
 
         boolean gameGewonnen = false;
 
@@ -28,40 +29,45 @@ public class Main
         System.out.println("rood, oranje, geel, groen, blauw, paars");
         System.out.print("voer in hoelang je de code wilt hebben: ");
 
-        int input = 0;
-        boolean goedeinput = false;
+//        int input = 0;
+//        boolean goedeinput = false;
+//
+//        while (!goedeinput)
+//        {
+//            try
+//            {
+//                input = sc.nextInt();
+//                if (input > 0)
+//                {
+//                    goedeinput = true;
+//                }
+//                else
+//                {
+//                    System.out.println("Oeps je kan geen negatief getal invullen,");
+//                    System.out.print("probeer het opnieuw: ");
+//                }
+//            }
+//            catch (InputMismatchException e)
+//            {
+//                System.out.println("Oeps, u heeft iets verkeerds ingevult");
+//                System.out.print("Vul aub een nummer in voor de lengte van de code: ");
+//                sc.next();
+//            }
+//        }
 
-        while (!goedeinput)
-        {
-            try
-            {
-                input = sc.nextInt();
-                if (input > 0)
-                {
-                    goedeinput = true;
-                }
-                else
-                {
-                    System.out.println("Oeps je kan geen negatief getal invullen,");
-                    System.out.print("probeer het opnieuw: ");
-                }
-            }
-            catch (InputMismatchException e)
-            {
-                System.out.println("Oeps, u heeft iets verkeerds ingevult");
-                System.out.print("Vul aub een nummer in voor de lengte van de code: ");
-                sc.next();
-            }
-        }
+        int input = mm.lengtecheck();
 
 
         System.out.print("Top! de code is nu " + input + " kleuren lang.");
 
-        String[] geheimecodes = new String[input];
-        for (int lengte = 0; lengte < geheimecodes.length; lengte++)
-        {
-            geheimecodes[lengte] = kleuren[rnd.nextInt(kleuren.length)];
-        }
+//        String[] geheimecodes = new String[input];
+//        for (int lengte = 0; lengte < geheimecodes.length; lengte++)
+//        {
+//            geheimecodes[lengte] = kleuren[rnd.nextInt(kleuren.length)];
+//        }
+
+        String[] geheimecodes = mm.GenerateColour(input);
+
 
         // Loop 10 keer
         for (int i = 0; i < 10; i++)
