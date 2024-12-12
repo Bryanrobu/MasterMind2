@@ -1,6 +1,5 @@
 package game;
 
-import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -29,44 +28,11 @@ public class Main
         System.out.println("rood, oranje, geel, groen, blauw, paars");
         System.out.print("voer in hoelang je de code wilt hebben: ");
 
-//        int input = 0;
-//        boolean goedeinput = false;
-//
-//        while (!goedeinput)
-//        {
-//            try
-//            {
-//                input = sc.nextInt();
-//                if (input > 0)
-//                {
-//                    goedeinput = true;
-//                }
-//                else
-//                {
-//                    System.out.println("Oeps je kan geen negatief getal invullen,");
-//                    System.out.print("probeer het opnieuw: ");
-//                }
-//            }
-//            catch (InputMismatchException e)
-//            {
-//                System.out.println("Oeps, u heeft iets verkeerds ingevult");
-//                System.out.print("Vul aub een nummer in voor de lengte van de code: ");
-//                sc.next();
-//            }
-//        }
-
-        int input = mm.lengtecheck();
-
+        int input = mm.lengteCheck();
 
         System.out.print("Top! de code is nu " + input + " kleuren lang.");
 
-//        String[] geheimecodes = new String[input];
-//        for (int lengte = 0; lengte < geheimecodes.length; lengte++)
-//        {
-//            geheimecodes[lengte] = kleuren[rnd.nextInt(kleuren.length)];
-//        }
-
-        String[] geheimecodes = mm.GenerateColour(input);
+        String[] geheimecodes = mm.genereerKleur(input);
 
 
         // Loop 10 keer
@@ -82,19 +48,9 @@ public class Main
 
             for (int y = 0; y < geheimecodes.length; y++)
             {
-                boolean matchFound = false;
-                y++;
-                System.out.print("Kleur " + y + ": ");
-                y--;
-                pogingen[y] = sc.next().toLowerCase();
-                for (String str : kleuren)
-                {
-                    if (pogingen[y].equals(str))
-                    {
-                        matchFound = true;
-                        break; //hoe staat Robert tov de break, ik vind dat je dan een while moet gebruiken dan heb je die niet nodig
-                    }
-                }
+
+                boolean matchFound = mm.goedeInput(y, pogingen);
+
                 while (!matchFound)
                 {
                     System.out.println("Vul een van de bovenstaande kleuren in aub");
@@ -102,14 +58,8 @@ public class Main
                     System.out.print("Kleur " + y + ": ");
                     y--;
                     pogingen[y] = sc.next();
-                    for (String str : kleuren)
-                    {
-                        if (pogingen[y].equals(str))
-                        {
-                            matchFound = true;
-                            break;
-                        }
-                    }
+
+                    matchFound = mm.verkeerdeInput(matchFound, pogingen, y);
                 }
             }
 
@@ -128,12 +78,10 @@ public class Main
                 {
                     for (int j = 0; j < geheimecodes.length; j++)
                     {
-
                         if (pogingen[j].equals(geheimecodes[j]))
                         {
                             continue; //als hij 1 en 1 wilt verglijken skipt hij dit en gaat naar 1 en 2 verglijken
                         }
-
                         if (pogingen[o].equals(geheimecodes[j]))
                         {
                             resultaat = "W "; //als een van de andere kleuren overeenkomt met je gok wordt de aanwezigheid aangegeven met een W
@@ -155,18 +103,7 @@ public class Main
             }
         }
         System.out.println();
-        if (gameGewonnen)
-        {
-            System.out.println("\nGefeliciteerd je hebt gewonnen!!!");
-        }
-        else
-        {
-            System.out.print("\nHelaas, de code was: ");
-            for (String geheimecode : geheimecodes)
-            {
-                System.out.print(geheimecode + " ");
 
-            }
-        }
+        mm.wonOrlost(gameGewonnen, geheimecodes);
     }
 }

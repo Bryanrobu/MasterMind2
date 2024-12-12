@@ -9,8 +9,9 @@ public class Mastermind
     String[] kleuren = {"rood", "oranje", "geel", "groen", "blauw", "paars"};
     Random rnd = new Random();
     Scanner sc = new Scanner(System.in);
+    String resultaat = "- ";
 
-    public int lengtecheck() {
+    public int lengteCheck() {
         int input = 0;
         boolean goedeinput = false;
 
@@ -38,12 +39,56 @@ public class Mastermind
         }
         return (input);
     }
-    public String[] GenerateColour(int input) {
+    public String[] genereerKleur(int input) {
         String[] geheimecodes = new String[input];
         for (int lengte = 0; lengte < geheimecodes.length; lengte++)
         {
             geheimecodes[lengte] = kleuren[rnd.nextInt(kleuren.length)];
         }
         return (geheimecodes);
+    }
+
+    public boolean goedeInput(int y, String[] pogingen) {
+    boolean matchFound = false;
+                y++;
+                System.out.print("Kleur " + y + ": ");
+                y--;
+                pogingen[y] = sc.next().toLowerCase();
+                for (String str : kleuren)
+                {
+                    if (pogingen[y].equals(str))
+                    {
+                        matchFound = true;
+                        break; //hoe staat Robert tov de break, ik vind dat je dan een while moet gebruiken dan heb je die niet nodig
+                    }
+                }
+                return matchFound;
+}
+    public boolean verkeerdeInput(boolean matchFound, String[] pogingen, int y) {
+        for (String str : kleuren)
+        {
+            if (pogingen[y].equals(str))
+            {
+                matchFound = true;
+                break;
+            }
+        }
+        return matchFound;
+    }
+
+    public void wonOrlost(boolean gameGewonnen, String[] geheimecodes) {
+        if (gameGewonnen)
+        {
+            System.out.println("\nGefeliciteerd je hebt gewonnen!!!");
+        }
+        else
+        {
+            System.out.print("\nHelaas, de code was: ");
+            for (String geheimecode : geheimecodes)
+            {
+                System.out.print(geheimecode + " ");
+
+            }
+        }
     }
 }
