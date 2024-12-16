@@ -26,7 +26,7 @@ public class Mastermind
                 }
                 else
                 {
-                    System.out.println("Oeps je kan geen negatief getal invullen,");
+                    System.out.println("Oeps je kan geen negatief getal invullen");
                     System.out.print("probeer het opnieuw: ");
                 }
             }
