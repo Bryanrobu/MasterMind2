@@ -49,7 +49,7 @@ public class Main
             for (int y = 0; y < geheimecodes.length; y++)
             {
 
-                boolean matchFound = mm.goedeInput(y, pogingen);
+                boolean matchFound = mm.goedeInput(y, pogingen, geheimecodes);
 
                 while (!matchFound)
                 {

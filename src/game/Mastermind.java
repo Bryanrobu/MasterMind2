@@ -48,11 +48,14 @@ public class Mastermind
         return (geheimecodes);
     }
 
-    public boolean goedeInput(int y, String[] pogingen) {
+    public boolean goedeInput(int y, String[] pogingen, String[] geheimecodes) {
     boolean matchFound = false;
+
                 y++;
                 System.out.print("Kleur " + y + ": ");
                 y--;
+
+
                 pogingen[y] = sc.next().toLowerCase();
                 for (String str : kleuren)
                 {
