@@ -11,7 +11,8 @@ public class Mastermind
     Scanner sc = new Scanner(System.in);
     String resultaat = "- ";
 
-    public int lengteCheck() {
+    public int lengteCheck()
+    {
         int input = 0;
         boolean goedeinput = false;
 
@@ -39,7 +40,9 @@ public class Mastermind
         }
         return (input);
     }
-    public String[] genereerKleur(int input) {
+
+    public String[] genereerKleur(int input)
+    {
         String[] geheimecodes = new String[input];
         for (int lengte = 0; lengte < geheimecodes.length; lengte++)
         {
@@ -48,26 +51,16 @@ public class Mastermind
         return (geheimecodes);
     }
 
-    public boolean goedeInput(int y, String[] pogingen, String[] geheimecodes) {
-    boolean matchFound = false;
+    public boolean goedeInput(int y, String[] pogingen, String[] geheimecodes)
+    {
+        boolean matchFound = false;
 
-                y++;
-                System.out.print("Kleur " + y + ": ");
-                y--;
+        y++;
+        System.out.print("Kleur " + y + ": ");
+        y--;
 
 
-                pogingen[y] = sc.next().toLowerCase();
-                for (String str : kleuren)
-                {
-                    if (pogingen[y].equals(str))
-                    {
-                        matchFound = true;
-                        break; //hoe staat Robert tov de break, ik vind dat je dan een while moet gebruiken dan heb je die niet nodig
-                    }
-                }
-                return matchFound;
-}
-    public boolean verkeerdeInput(boolean matchFound, String[] pogingen, int y) {
+        pogingen[y] = sc.next().toLowerCase();
         for (String str : kleuren)
         {
             if (pogingen[y].equals(str))
@@ -79,7 +72,21 @@ public class Mastermind
         return matchFound;
     }
 
-    public void wonOrlost(boolean gameGewonnen, String[] geheimecodes) {
+    public boolean verkeerdeInput(boolean matchFound, String[] pogingen, int y)
+    {
+        for (String str : kleuren)
+        {
+            if (pogingen[y].equals(str))
+            {
+                matchFound = true;
+                break;
+            }
+        }
+        return matchFound;
+    }
+
+    public void gewonnenOfVerloren(boolean gameGewonnen, String[] geheimecodes)
+    {
         if (gameGewonnen)
         {
             System.out.println("\nGefeliciteerd je hebt gewonnen!!!");
