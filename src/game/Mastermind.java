@@ -51,7 +51,7 @@ public class Mastermind
         return (geheimecodes);
     }
 
-    public boolean goedeInput(int y, String[] pogingen, String[] geheimecodes)
+    public boolean goedeKleur(int y, String[] pogingen, String[] geheimecodes)
     {
         boolean matchFound = false;
 
@@ -72,7 +72,7 @@ public class Mastermind
         return matchFound;
     }
 
-    public boolean verkeerdeInput(boolean matchFound, String[] pogingen, int y)
+    public boolean kleurenCheck(boolean matchFound, String[] pogingen, int y)
     {
         for (String str : kleuren)
         {
@@ -100,5 +100,40 @@ public class Mastermind
 
             }
         }
+    }
+
+    public int invoerCheck(String[] pogingen, String[] geheimeCodes, int score)
+    {
+        for (int o = 0; o < geheimeCodes.length; o++)
+        {
+            // Standaarwaarde word elke poging terug gezet naar fout
+            String resultaat = "- ";
+            if (pogingen[o].equals(geheimeCodes[o]))
+            {
+                //bij een 1 op 1 match goed
+                resultaat = "Z ";
+                score++;
+            }
+            else
+            {
+                for (int j = 0; j < geheimeCodes.length; j++)
+                {
+                    if (pogingen[j].equals(geheimeCodes[j]))
+                    {
+                        //als hij 1 en 1 wilt verglijken skipt hij dit en gaat naar 1 en 2 verglijken
+                        continue;
+                    }
+                    if (pogingen[o].equals(geheimeCodes[j]))
+                    {
+                        //als een van de andere kleuren overeenkomt met je gok wordt de aanwezigheid aangegeven met een W
+                        resultaat = "W ";
+                        break;
+                    }
+                }
+            }
+            //Hier print hij dus Z, W of -
+            System.out.print(resultaat);
+        }
+        return score;
     }
 }

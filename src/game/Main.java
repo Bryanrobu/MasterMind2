@@ -34,7 +34,7 @@ public class Main
 
         System.out.print("Top! de code is nu " + input + " kleuren lang.");
 
-        String[] geheimecodes = mm.genereerKleur(input);
+        String[] geheimeCodes = mm.genereerKleur(input);
 
 
         // Loop 10 keer
@@ -46,15 +46,15 @@ public class Main
             // Print het poging nummer en maak een lege array aan voor de pogingen
             System.out.println("\n\nPoging: " + ronde);
 
-            String[] pogingen = new String[geheimecodes.length];
+            String[] pogingen = new String[geheimeCodes.length];
 
-            for (int y = 0; y < geheimecodes.length; y++)
+            for (int y = 0; y < geheimeCodes.length; y++)
             {
                 // Hij gaat vragen om je user input, zodra je iets wat geen optie was invult
                 // Gaat hij het opnieuw vragen tot je iets goeds invult
-                boolean matchFound = mm.goedeInput(y, pogingen, geheimecodes);
+                boolean matchGevonden = mm.goedeKleur(y, pogingen, geheimeCodes);
 
-                while (!matchFound)
+                while (!matchGevonden)
                 {
                     System.out.println("Vul een van de bovenstaande kleuren in aub");
                     y++;
@@ -62,47 +62,20 @@ public class Main
                     y--;
                     pogingen[y] = sc.next();
 
-                    matchFound = mm.verkeerdeInput(matchFound, pogingen, y);
+                    // Hij checkt of het nu wel een goede kleur is, dan gaat hij verder
+                    // Als hij geen match vindt gebeurt alles opnieuw
+                    matchGevonden = mm.kleurenCheck(matchGevonden, pogingen, y);
                 }
             }
 
-
-            // Controleer eerste poging
-            for (int o = 0; o < geheimecodes.length; o++)
-            {
-                // Standaarwaarde word elke poging terug gezet naar fout
-                String resultaat = "- ";
-                if (pogingen[o].equals(geheimecodes[o]))
-                {
-                    //bij een 1 op 1 match goed
-                    resultaat = "Z ";
-                    score++;
-                }
-                else
-                {
-                    for (int j = 0; j < geheimecodes.length; j++)
-                    {
-                        if (pogingen[j].equals(geheimecodes[j]))
-                        {
-                            //als hij 1 en 1 wilt verglijken skipt hij dit en gaat naar 1 en 2 verglijken
-                            continue;
-                        }
-                        if (pogingen[o].equals(geheimecodes[j]))
-                        {
-                            //als een van de andere kleuren overeenkomt met je gok wordt de aanwezigheid aangegeven met een W
-                            resultaat = "W ";
-                            break;
-                        }
-                    }
-                }
-                //Hier print hij dus Z, W of -
-                System.out.print(resultaat);
-            }
+            // Deze functie checkt of de input gelijk is aan de code
+            // Waardoor hij bepaalt of je een Wit Zwart of een - terug krijgt
+            score = mm.invoerCheck (pogingen, geheimeCodes, score);
 
             //Als de score gelijk is aan de lengte van de code (je krijgt 1 score per goed antwoord, dus alles goed)
             //Dan heb je het spel gewonnen, en zet hij de waarde i op 11 zodat je uit de main game loop breekt
             //Zo niet gaat de score van goede antwoorden terug naar 0
-            if (score == geheimecodes.length)
+            if (score == geheimeCodes.length)
             {
                 i = 11;
                 gameGewonnen = true;
@@ -116,6 +89,6 @@ public class Main
 
         //Hij checkt of je score gelijk was aan de lengte va de code of dat je over de 10 pogingen heen bent gegaan
         //(hij bepaald dus of je hebt gewonnen of verloren)
-        mm.gewonnenOfVerloren(gameGewonnen, geheimecodes);
+        mm.gewonnenOfVerloren(gameGewonnen, geheimeCodes);
     }
 }
