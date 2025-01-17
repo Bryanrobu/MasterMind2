@@ -11,6 +11,10 @@ public class Mastermind
     Scanner sc = new Scanner(System.in);
     String resultaat = "- ";
 
+    /**
+     * Deze functie checkt of er een valide input wordt gegeven en voert deze door
+     * @return De lengte gekozen door de speler
+     */
     public int lengteCheck()
     {
         int input = 0;
@@ -41,6 +45,11 @@ public class Mastermind
         return (input);
     }
 
+    /**
+     * Genereert random kleuren op basis van de hier voor geselecteerde lengte
+     * @param input (Lengte die de code moet worden)
+     * @return geheimecodes (random kleuren, zoveel als de waarde van input)
+     */
     public String[] genereerKleur(int input)
     {
         String[] geheimecodes = new String[input];
@@ -51,6 +60,13 @@ public class Mastermind
         return (geheimecodes);
     }
 
+    /**
+     * Checkt of de gok overeenkomt met een van de opgegeven kleuren, zo niet gaat hij een loopje in
+     * @param y (optellende waarde in loop)
+     * @param pogingen (aantal keren dat het programma je heeft laten gokken)
+     * @param geheimecodes (de code van random kleuren)
+     * @return (j/n of de gok overeenkomt met een valide antwoord)
+     */
     public boolean goedeKleur(int y, String[] pogingen, String[] geheimecodes)
     {
         boolean matchFound = false;
@@ -72,6 +88,13 @@ public class Mastermind
         return matchFound;
     }
 
+    /**
+     * Het loopje die opnieuw blijft vragen om een valide input totdat deze aangeleverd wordt
+     * @param matchFound (of er al een goede match was)
+     * @param pogingen (de gegokte kleuren)
+     * @param y (waarde die aangeeft hoevaak er geloopt is)
+     * @return of er een goede match gevonden is
+     */
     public boolean kleurenCheck(boolean matchFound, String[] pogingen, int y)
     {
         for (String str : kleuren)
